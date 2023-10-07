@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.10 )
+cmake_minimum_required(VERSION 3.27)
 set(CMAKE_CXX_STANDARD 17)
 project( ProcessorTracerByIntelPT VERSION 1.0 )
 
@@ -59,8 +59,6 @@ if (UNIX AND NOT APPLE)
     set_target_properties( psc_test PROPERTIES
                             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
-elseif(APPLE)
-    add_subdirectory(lib/PrintSourceCode)
 else()
     message(FATAL_ERROR "This project is linux project")
 endif()

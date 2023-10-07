@@ -57,13 +57,11 @@ void Decoder::DecodeForDebug( void )
                 break;
             }
             else {
-                std::cerr << "inst next error : " << std::dec << status << std::endl;
                 return;
             }
         }
         handleForDebug( &insn );
     }
-    std::cout << "loop list len : " << std::dec << _loop_list->size() << std::endl;
     
     pt_insn_free_decoder( _decoder );
     pt_iscache_free( _iscache );

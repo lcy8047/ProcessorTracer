@@ -43,10 +43,6 @@ public:
         return _traced_list;
     }
     
-    std::vector<loop_info*>* GetLoopList( void ) {
-        return _loop_list;
-    }
-
     // Debug.cpp
     void    DecodeForDebug      ( void );
     void    PrintDebugInfo      ( void ) const;
