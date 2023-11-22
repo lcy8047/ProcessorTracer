@@ -58,6 +58,14 @@ if (UNIX AND NOT APPLE)
                                 "${PROJECT_SOURCE_DIR}/include" )
     set_target_properties( psc_test PROPERTIES
                             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
+    add_executable( trace_test trace_test.cpp )
+target_compile_options( trace_test PUBLIC -g -Wall)
+target_link_libraries(trace_test Tracer)
+target_include_directories( trace_test 
+							PUBLIC 
+							"${PROJECT_SOURCE_DIR}/include" )
+set_target_properties( trace_test PROPERTIES
+						RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
 else()
     message(FATAL_ERROR "This project is linux project")

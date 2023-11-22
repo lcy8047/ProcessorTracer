@@ -1,5 +1,6 @@
 add_subdirectory(Decoder)
 add_subdirectory(ProcessorTracer)
+add_subdirectory(Tracer)
 add_subdirectory(MultiThreadTracer)
 add_subdirectory(PrintSourceCode)
 
