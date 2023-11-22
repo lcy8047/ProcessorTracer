@@ -34,3 +34,5 @@
 # VSCode & CMake dir
 .vscode/
 build/
+
+core.*
