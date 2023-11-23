@@ -27,7 +27,7 @@ make
 ## Run
 
 ``` shell
-./bin/trace_test <executable file>
+sudo ./bin/trace_test <executable file>
 ```
 
 Then, you can get files `traced_data.bin` and `maps_data`
