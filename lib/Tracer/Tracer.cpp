@@ -24,42 +24,31 @@ void Tracer::StartTrace( void )
 void Tracer::StopTrace( void )
 {
 	ioctl( _fd, PERF_EVENT_IOC_DISABLE, 0 );
-	CheckTraceResult_debug();
+	// CheckTraceResult_debug();
 	SaveTraceData();
 	SaveMapsData();
 }
 
 void Tracer::SaveTraceData( void )
 {
-	uint8_t psb_packet[16] = { 0x2, 0x82, 0x2, 0x82, 0x2, 0x82, 0x2, 0x82, 0x2, 0x82, 0x2, 0x82, 0x2, 0x82, 0x2, 0x82 };
-	uint8_t tracestop_packet[2] = { 0x2, 0x83 };
 	int total_trace_data_size = 0;
 	int last_founded_not_null = 0;
 	struct perf_event_mmap_page *header;
 	header = ( struct perf_event_mmap_page * ) _base;
 	for ( uint64_t i = 0; i < header->aux_size; ++ i )
 	{
-		if ( ! memcmp( psb_packet, _aux + i, 16 ) )
-		{
-			std::cout << "Found psb packet: " << i << std::endl;
-			total_trace_data_size = i;
-		}
-		if ( ! memcmp( tracestop_packet, _aux + i, 2 ) )
-		{
-			std::cout << "Found tracestop packet: " << i << std::endl;
-		}
 		if ( _aux[i] != 0 )
 		{
 			last_founded_not_null = i;
 		}
 	}
 	total_trace_data_size += 2048;
-	std::cout << "total size : " << total_trace_data_size << std::endl;
-	std::cout << "last founded not null : " << last_founded_not_null << std::endl;
+
 	if ( total_trace_data_size < last_founded_not_null )
 	{
 		total_trace_data_size += 2048;
 	}
+	std::cout << "Total size of traced data : " << total_trace_data_size << std::endl;
 
 	std::string filename = "traced_data.bin";
 	FILE *traced_data_fp = fopen( filename.c_str(), "w" );
@@ -68,7 +57,7 @@ void Tracer::SaveTraceData( void )
 		std::cerr << filename << " open error : " << strerror( errno ) << std::endl;
 		exit( 1 );
 	}
-	std::cout << "save at " << filename << ".." << std::endl;
+	std::cout << "Save " << filename << " .. " << std::flush;
 	fwrite( _aux, sizeof( char ), total_trace_data_size, traced_data_fp );
 	std::cout << "done" << std::endl;
 	fclose( traced_data_fp );
@@ -83,13 +72,11 @@ void Tracer::SaveMapsData( void )
 	while ( true )
 	{
 		memcpy( &map, data_addr, sizeof( struct mmap ) );
-		// std::cout << "map pid : " << map.pid << std::endl;
-		// std::cout << "map tid : " << map.tid << std::endl;
 		size = sizeof( struct mmap );
 		if ( map.tid != ( uint32_t )_target_tid )
 		{
-			std::cerr << "end of data" << std::endl;
-			std::cerr << ( const char * ) data_addr + size << std::endl;
+			// std::cerr << "end of data" << std::endl;
+			// std::cerr << ( const char * ) data_addr + size << std::endl;
 			break;
 		}
 		raw.path = ( const char * ) data_addr + size;
@@ -106,7 +93,7 @@ void Tracer::SaveMapsData( void )
 	}
 	if ( _raw_file_list.empty() )
 	{
-		std::cout << "data is empty" << std::endl;
+		std::cout << "Maps data is empty" << std::endl;
 	}
 	else
 	{

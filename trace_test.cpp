@@ -24,13 +24,13 @@ int main( int argc, char *argv[] )
         std::cout << "pid : " << pid << std::endl;
         int status;
         waitpid( pid, &status, 0 );
-        std::cout << "trace is done" << std::endl;
+        std::cout << "\n-- Trace is done --\n" << std::endl;
         pt->StopTrace();
     }
     else {
         //pause();
         sleep(1);
-        std::cout << "trace start" << std::endl;
+        std::cout << "\n-- Trace start --\n" << std::endl;
         execvp( arg[0], (char**)arg );
     }
 	return 0;
