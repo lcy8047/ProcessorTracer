@@ -17,17 +17,17 @@ sudo apt-get install cmake gcc make
 Make sure libipt is installed.
 
 ``` shell
-    git clone https://github.com/lcy8047/ProcessorTracer
-    cd ProcessorTracer
-    mkdir build && cd build
-    cmake ..
-    make
+git clone https://github.com/lcy8047/ProcessorTracer
+cd ProcessorTracer
+mkdir build && cd build
+cmake ..
+make
 ```
 
 ## Run
 
 ``` shell
-    ./bin/trace_test <executable file>
+./bin/trace_test <executable file>
 ```
 
 Then, you can get files `traced_data.bin` and `maps_data`
